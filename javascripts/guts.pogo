@@ -34,23 +34,11 @@ $
     document.get element by id 'imperial_march'.play()
     crawl (["Tun dun dun, da da dun, da da dun ...", "Couldn't find the repo, the repo!"])
 
-  (repo) commits link =
-    user slash repo = repo.replace r/.*github.com[\/:](.*?)(\.git)?$/ '$1'
-    {
-      url = "https://api.github.com/repos/#(user slash repo)/commits?per_page=100"
-      hash_tag = "##(user slash repo)"
-    }
-
-  get repo url from hash () =
-    match = window.location.hash.match r/#(.*?)\/(.*?)$/
-    if (match)
-      "https://api.github.com/repos/#(match.1)/#(match.2)/commits"
-
   show response () =
     $ '.plane'.show()
     commits fetch.done @(response)
-      if (response.data :: Array)
-        messages = [record.commit.message, where: record <- response.data]
+      if (response :: Array)
+        messages = [record.message, where: record <- response]
         play commit (messages)
       else
         console.log(response)
@@ -75,33 +63,25 @@ $
   $(document).on (animation end) '.content'
     $(this).remove()
 
-  $(window).on 'hashchange'
-    window.location.reload()
-
   create audio tag for "theme"
   create audio tag for "imperial_march"
   create audio tag (looped: false) for "falcon_fly"
 
   commits fetch = nil
 
-  if (url = get repo url from hash())
-    commits fetch := $.ajax (url) { data type = 'jsonp' }
-    show response()
-  else
-    $ '.input'.on (transition end)
-      show response()
+  $ '.input'.on (transition end)
+    alert("trans end")
 
-    $ 'input'.keyup @(event)
-      if (event.key code == 13)
-        repo = ($(this).val()) commits link
+  $ 'input'.keyup @(event)
+    if (event.key code == 13)
+      repo_url = "http://localhost:3000/#($(this).val())"
+      commits fetch := $.ajax (repo_url) 
 
-        window.history.push state(nil, nil, "#(repo.hash_tag)")
-        commits fetch := $.ajax (repo.url) { data type = 'jsonp' }
+      document.get element by id 'falcon_fly'.play()
+      $(this).parent().add class 'zoomed'
 
-        document.get element by id 'falcon_fly'.play()
-        $(this).parent().add class 'zoomed'
-
-    $ '.input'.show()
+  $ '.input'.show()
+  
 
   $(document).on (visibilitychange)
     if (document hidden ())
