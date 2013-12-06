@@ -70,7 +70,7 @@ $
   commits fetch = nil
 
   $ '.input'.on (transition end)
-    alert("trans end")
+    show response()
 
   $ 'input'.keyup @(event)
     if (event.key code == 13)
