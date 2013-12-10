@@ -1,6 +1,22 @@
-One day in a galaxy far, far away… someone might want to read your project history.
+This project is based on StarLogs by artemave: https://github.com/artemave/StarLogs
 
-Get a preview today: http://starlogs.net
+StarLogsLocal allows to display commit messages from local repositiries in local environment (no need for github repo).
+
+### Want to use it?
+
+Go to your HTTP server root directory.
+
+Clone project:
+
+    $ git clone git://github.com/sebast26/StarLogsLocal.git && cd StarLogsLocal
+
+Execute command:
+
+	$ cd <YOUR_GIT_REPO> && git log --reverse --format=%s > <HTTP_SERVER_ROOT>/StarLogsLocal/<FILENAME>.txt
+
+Visit StarLogsLocal on your localhost (i.e. http://localhost/StarLogsLocal/starlogs.html)
+
+Enter FILENAME.txt in input field.
 
 ### Want to hack on it?
 
@@ -8,7 +24,7 @@ No problem. But first, it is not just Javascript and CSS. It is [pogoscript](htt
 
 If that does not put you off, I give up! Clone the project:
 
-    $ git clone git://github.com/artemave/StarLogs.git && cd StarLogs
+    $ git clone git://github.com/sebast26/StarLogsLocal.git && cd StarLogsLocal
 
 Get pogo:
 

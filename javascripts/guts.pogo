@@ -37,14 +37,15 @@ $
   show response () =
     $ '.plane'.show()
     commits fetch.done @(response)
-      if (response :: Array)
-        messages = [record.message, where: record <- response]
+      messages = response.split("\n")
+      if (messages :: Array)
         play commit (messages)
       else
         console.log(response)
         play error()
-    .fail @(problem)
+    .fail @(problem, status)
       console.log(problem)
+      console.log(status)
       play error()
 
   create audio tag (looped: true) for (file name) =
@@ -74,8 +75,8 @@ $
 
   $ 'input'.keyup @(event)
     if (event.key code == 13)
-      repo_url = "http://localhost:3000/#($(this).val())"
-      commits fetch := $.ajax (repo_url) 
+      repo_url = document.URL.replace("starlogs.html", "#($(this).val())")
+      commits fetch := $.ajax (url: repo_url, dataType: "text") 
 
       document.get element by id 'falcon_fly'.play()
       $(this).parent().add class 'zoomed'
